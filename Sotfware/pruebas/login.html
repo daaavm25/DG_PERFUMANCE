@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Perfumes - Iniciar Sesión</title>
+    <link rel="stylesheet" href="./css/estilos.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    
+    <main class="login-container">
+        <div class="imagen-lado">
+            <img src="https://www.lodoro.cl/cdn/shop/files/Lattafa_11.png?v=1754344432&width=600" alt="Botella de perfume Lattafa. Tu aroma, tu sello personal">
+            <p class="slogan">Tu aroma, tu sello personal</p>
+        </div>
+        <div class="formulario-lado">
+            <h1>Iniciar sesión</h1>
+            <form action="/api/login" method="POST">
+                <input type="text" placeholder="Usuario" required>
+                <input type="password" placeholder="Contraseña" required>
+                <a href="recuperar.html" class="olvidaste-link">¿Olvidaste tu contraseña?</a> 
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+            <div class="enlaces-secundarios">
+                <p>¿No tienes cuenta? <a href="crear-cuenta.html">Crear</a></p>
+                <p><a href="inicio.html?mode=guest">Iniciar como invitado</a></p> 
+            </div>
+        </div>
+    </main>
+</body>
+</html>
