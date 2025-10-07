@@ -1,0 +1,191 @@
+BASE DE DATOS DE DG_PERFUMANCE
+
+La base de datos está diseñada para cubrir las principales operaciones del negocio, como:
+
+Gestión de clientes y empleados.
+
+Administración de roles y usuarios del sistema.
+
+Control de inventario de perfumes por género.
+
+Registro de ventas y compras.
+
+Seguimiento de proveedores.
+
+
+Para cargar la base de datos tendran que ejecutar los siguientes scrip en tu terminal postgres 
+psql -U product_owner -d tienda_perfumes -f database/init_db.sql esto depende del nombre de usuario de cada uno de los miembros del equipo          
+cada quien tiene que crear su base de datos tienda perfumes,ejecutan el anterior archivo que sirve para traspasar todos las tablas y los esquemas.
+para cargar los datos iniciales tienen que ejecutar el scrip psql -U product_owner -d tienda_perfumes -f database/test_data.sql,
+esto sirve para descargar los roles y los tipos de genero de perfume y los usuarios administrador y gerente.
+
+
+1. Rol
+
+Define los distintos roles del sistema (por ejemplo: administrador, vendedor, cliente).
+
+CREATE TABLE rol (
+    id_rol SERIAL PRIMARY KEY,
+    descripcion VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+2. Género
+
+Clasifica los perfumes por género (masculino, femenino, unisex, etc.).
+
+CREATE TABLE genero (
+    id_genero SERIAL PRIMARY KEY,
+    descripcion VARCHAR(30) NOT NULL UNIQUE
+);
+
+
+3. Cliente
+
+Registra los datos personales de los clientes.
+
+CREATE TABLE cliente (
+    id_cliente SERIAL PRIMARY KEY,
+    nombres VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100) UNIQUE
+);
+
+4. Empleado
+
+Almacena información de los empleados y su rol en la empresa.
+
+CREATE TABLE empleado (
+    id_empleado SERIAL PRIMARY KEY,
+    nombres VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100) UNIQUE,
+    id_rol INT NOT NULL,
+    FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
+);
+
+5. Usuario
+
+Representa las cuentas del sistema (login), vinculadas a clientes o empleados.
+
+CREATE TABLE usuario (
+    id_usuario SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(200) NOT NULL, -- Hash de la contraseña
+    email VARCHAR(100) UNIQUE,
+    id_rol INT NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    id_cliente INT UNIQUE,
+    id_empleado INT UNIQUE,
+    FOREIGN KEY (id_rol) REFERENCES rol(id_rol),
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
+);
+
+6. Perfume
+
+Inventario de productos disponibles.
+
+CREATE TABLE perfume (
+    id_perfume SERIAL PRIMARY KEY,
+    marca VARCHAR(50) NOT NULL,
+    presentacion VARCHAR(50),
+    talla VARCHAR(20),
+    id_genero INT NOT NULL,
+    stock INT DEFAULT 0,
+    fecha_caducidad DATE,
+    FOREIGN KEY (id_genero) REFERENCES genero(id_genero)
+);
+
+7. Proveedor
+
+Información de los proveedores que surten perfumes.
+
+CREATE TABLE proveedor (
+    id_proveedor SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100),
+    direccion VARCHAR(200),
+    condiciones_comerciales TEXT
+);
+
+8. Venta
+
+Registro de las ventas realizadas a los clientes.
+
+CREATE TABLE venta (
+    id_venta SERIAL PRIMARY KEY,
+    fecha_venta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    monto_total NUMERIC(10,2) NOT NULL,
+    id_cliente INT NOT NULL,
+    id_empleado INT,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
+);
+
+9. Detalle_Venta
+
+Detalle de cada perfume vendido (permite ventas con varios artículos).
+
+CREATE TABLE detalle_venta (
+    id_detalle_venta SERIAL PRIMARY KEY,
+    id_venta INT NOT NULL,
+    id_perfume INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario NUMERIC(10,2) NOT NULL,
+    FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON DELETE CASCADE,
+    FOREIGN KEY (id_perfume) REFERENCES perfume(id_perfume)
+);
+
+10. Compra
+
+Registro de compras realizadas a proveedores.
+
+CREATE TABLE compra (
+    id_compra SERIAL PRIMARY KEY,
+    fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    costo_total NUMERIC(10,2) NOT NULL,
+    id_proveedor INT NOT NULL,
+    FOREIGN KEY (id_proveedor) REFERENCES proveedor(id_proveedor)
+);
+
+11. Detalle_Compra
+
+Detalle de los perfumes comprados (permite múltiples productos por compra).
+
+CREATE TABLE detalle_compra (
+    id_detalle_compra SERIAL PRIMARY KEY,
+    id_compra INT NOT NULL,
+    id_perfume INT NOT NULL,
+    cantidad INT NOT NULL,
+    costo_unitario NUMERIC(10,2) NOT NULL,
+    FOREIGN KEY (id_compra) REFERENCES compra(id_compra) ON DELETE CASCADE,
+    FOREIGN KEY (id_perfume) REFERENCES perfume(id_perfume)
+);
+
+Relaciones Clave
+
+rol se relaciona con empleado y usuario.
+
+usuario puede vincularse a un cliente o empleado.
+
+perfume depende de genero.
+
+venta depende de cliente y opcionalmente de empleado.
+
+detalle_venta y detalle_compra dependen de sus respectivas tablas principales (venta, compra) y de perfume.
+
+compra depende de proveedor.
+
+Requisitos
+
+PostgreSQL 14 o superior
+
+Editor SQL (pgAdmin, DBeaver, o terminal de Linux)
+
+Usuario con permisos para crear tablas y claves foráneas
+
+
