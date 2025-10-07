@@ -1,1 +1,0 @@
-# DG_PERFUMANCE
