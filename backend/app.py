@@ -1,7 +1,25 @@
-from app import create_app  # Importa la función create_app desde app
+import os
+from flask import Flask, send_from_directory, jsonify
+from flask_cors import CORS
 
-app = create_app()  # Crea la aplicación Flask
+from routes.auth_routes import auth_bp
+from routes.catalogo_routes import catalogo_bp
+from routes.carrito_routes import carrito_bp
 
+app = Flask(__name__, static_folder='static', static_url_path='/')
+CORS(app)
 
-if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+app.register_blueprint(auth_bp)
+app.register_blueprint(catalogo_bp)
+app.register_blueprint(carrito_bp)
+
+@app.route('/health')
+def health():
+    return jsonify({'status': 'ok', 'app': 'DG_PERFUMANCE'})
+
+@app.route('/')
+def index():
+    return send_from_directory(app.static_folder, 'inicio.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)

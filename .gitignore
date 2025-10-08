@@ -1,4 +1,11 @@
 database/copiasBD/
 
+.env
 
-/proyecto/
+backend/create_admin.py
+
+backend/__pycache__
+
+backend/routes/__pycache__
+
+proyecto/
