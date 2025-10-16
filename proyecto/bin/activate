@@ -75,4 +75,4 @@ fi
 # past commands the $PATH changes we made may not be respected
 hash -r 2> /dev/null
 
-export FLASK_APP="app.py"
+#export FLASK_APP="app.py"
