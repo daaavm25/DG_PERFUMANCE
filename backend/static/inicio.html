@@ -5,87 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Perfumes - Inicio</title>
     <link rel="stylesheet" href="css/estilos.css">
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
     <div class="main-app-container">
         <header class="main-header">
-            
-            <div class="nav-back">
-                <button onclick="window.history.back()">
-                    <span class="material-symbols-outlined">arrow_back</span>
-                </button>
-            </div>
             <div class="search-bar">
-                <input type="search" placeholder="Buscar">
+                <input type="search" placeholder="Buscar tu aroma ideal...">
             </div>
-            
             <nav class="main-nav">
-                <a href="catalogo-general.html" class="nav-item active">Ver todo</a> 
+                <a href="inicio.html" class="nav-item active">Inicio</a>
+                <a href="catalogo-general.html" class="nav-item">Ver Todo</a>
                 <a href="catalogo-hombre.html" class="nav-item">Hombre</a>
                 <a href="catalogo-mujer.html" class="nav-item">Mujer</a>
-                <a href="carrito.html" class="nav-item cart-link">Carrito</a>
+                <a href="carrito.html" class="nav-item">Carrito</a>
+           
             </nav>
         </header>
 
-        <main class="home-content">
-            <section class="banner-section">
-                <div class="banner-grid">
-                    <div class="banner" style="background-image: url('imagen/imagen1.png');"></div>
-                    <div class="banner" style="background-image: url('imagen/imagen2.png');"></div>
-                    <div class="banner" style="background-image: url('imagen/imagen3.png');"></div>
-                </div>
-            </section>
+        <main>
+            <div class="banner-grid">
+    <div class="banner" style="background-image: url('img/logo1.jpeg');"></div>
+    <div class="banner" style="background-image: url('img/logo2.jpeg');"></div>
+    <div class="banner" style="background-image: url('img/logo3.png');"></div>
+</div>
 
             <h2 class="section-title">Novedades</h2>
-            
-            <section class="product-grid">
-                <div class="product-card">
-                    <img src="images/perfume-esika-mujer.jpg" alt="Perfume 1, Esika">
-                    <p>mujer</p>
-                    <p>lbael</p>
-                </div>
-                <div class="product-card">
-                    <img src="images/perfume-lujo-mujer.jpg" alt="Perfume 2, Botella de lujo.">
-                    <p>mujer</p>
-                    <p>istock</p>
-                </div>
-                <div class="product-card">
-                    <img src="images/perfume-lancome-mujer.jpg" alt="Perfume 3, Botella de diseño moderno.">
-                    <p>mujer</p>
-                    <p>lancome</p>
-                </div>
-                <div class="product-card">
-                    <img src="images/perfume-minimalista-hombre.jpg" alt="Perfume 4, Botella minimalista.">
-                    <p>hombre</p>
-                    <p>shutters</p>
-                </div>
-                <div class="product-card">
-                    <img src="images/perfume-oscuro-hombre.jpg" alt="Perfume 5, Botella oscura de lujo.">
-                    <p>hombre</p>
-                    <p>shutters</p>
-                </div>
-            </section>
+            <div class="product-grid">
+                <a href="producto-detalle-2.html" class="product-card">
+                    <img src="img/miss.dior.png" alt="Perfume Miss Dior">
+                    <h3>Miss Dior</h3>
+                </a>
+                <a href="producto-detalle-14.html" class="product-card">
+                    <img src="img/sauvage.jpg" alt="Perfume Dior Sauvage">
+                    <h3>Dior Sauvage</h3>
+                </a>
+                <a href="producto-detalle-6.html" class="product-card">
+                    <img src="img/black_opium.jpg" alt="Perfume Black Opium">
+                    <h3>Black Opium</h3>
+                </a>
+                <a href="producto-detalle-15.html" class="product-card">
+                    <img src="img/one_million.avif" alt="Perfume 1 Million">
+                    <h3>1 Million</h3>
+                </a>
+                 <a href="producto-detalle-7.html" class="product-card">
+                    <img src="img/coco_chanel.avif" alt="Coco Mademoiselle">
+                    <h3>Coco Mademoiselle</h3>
+                </a>
+                 <a href="producto-detalle-11.html" class="product-card">
+                    <img src="img/acqua_di_gio.png" alt="Acqua di Giò">
+                    <h3>Acqua di Giò</h3>
+                </a>
+            </div>
         </main>
     </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.querySelector('.search-bar input[type="search"]');
-            
-            if (searchInput) {
-                searchInput.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        const query = searchInput.value.trim();
-                        if (query) {
-                            window.location.href = 'resultados-busqueda.html?q=' + encodeURIComponent(query);
-                        }
-                        e.preventDefault();
-                    }
-                });
-            }
-        });
-    </script>
-    </body>
+</body>
 </html>

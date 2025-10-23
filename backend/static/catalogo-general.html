@@ -3,71 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Perfumes - Catálogo General</title>
+    <title>Catálogo General</title>
     <link rel="stylesheet" href="css/estilos.css">
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
+
+    <button onclick="history.back()" class="btn-back-fixed">&larr;</button>
+
     <div class="main-app-container">
         <header class="main-header">
-            
-            <div class="nav-back">
-                <button onclick="window.history.back()">
-                    <span class="material-symbols-outlined">arrow_back</span>
-                </button>
-            </div>
-            <div class="search-bar">
-                <input type="search" placeholder="Buscar">
-            </div>
             <nav class="main-nav">
-                <a href="catalogo-general.html" class="nav-item active">Ver todo</a>
+                <a href="inicio.html" class="nav-item">Inicio</a>
+                <a href="catalogo-general.html" class="nav-item active">Ver Todo</a>
                 <a href="catalogo-hombre.html" class="nav-item">Hombre</a>
                 <a href="catalogo-mujer.html" class="nav-item">Mujer</a>
-                <a href="carrito.html" class="nav-item cart-link">Carrito</a>
+                <a href="carrito.html" class="nav-item">Carrito</a>
+               
             </nav>
         </header>
 
-        <main class="catalogo-content">
-            <h2 class="section-title" id="catalogo-titulo">Catálogo</h2>
-            
-            <section class="product-grid">
-                <div class="product-card"><img src="imagen/imagen1.png" alt="Mujer"><p>Eau de perfum</p></div>
-                <div class="product-card"><img src="imagen/imagen2.png" alt="Mujer"><p>Scandal</p></div>
-                <div class="product-card"><img src="imagen/imagen3.png" alt="Hombre"><p>Valentino</p></div>
-                <div class="product-card"><img src="imagen/imagen4.png" alt="Hombre"><p>Hugo boss</p></div>
-                <div class="product-card"><img src="imagen/imagen5.png" alt="Hombre"><p>Sauvage</p></div>
-                <div class="product-card"><img src="imagen/imagen6.png" alt="Mujer"><p>Lbeal</p></div>
-                <div class="product-card"><img src="imagen/imagen7.png" alt="Hombre"><p>carolina herrera</p></div>
-                <div class="product-card"><img src="imagen/imagen8.png" alt="Mujer"><p>212 VIP</p></div>                
-                <div class="product-card"><img src="imagen/imagen9.png" alt="Mujer"><p>Dior</p></div>
-                <div class="product-card"><img src="imagen/imagen17.png" alt="Mujer"><p>Dolce && gabbana</p></div>
-                <div class="product-card"><img src="imagen/imagen11.png" alt="Hombre"><p>Paco rabanne</p></div>
-                <div class="product-card"><img src="imagen/imagen12.png" alt="Hombre"><p>jean paul</p></div>
-                <div class="product-card"><img src="imagen/imagen13.png" alt="Hombre"><p>Yves saint</p></div>
-                <div class="product-card"><img src="imagen/imagen14.png" alt="Mujer"><p>Daisy</p></div>
-                <div class="product-card"><img src="imagen/imagen15.png" alt="Hombre"><p>jean paul</p></div>
-                <div class="product-card"><img src="imagen/imagen16.png" alt="Mujer"><p>Juicy</p></div>
-            </section>
+        <main>
+            <h2 class="section-title">Catálogo General</h2>
+            <div class="product-grid">
+                <a href="producto-detalle-1.html" class="product-card"><img src="img/Dolce_gabbana.webp" alt="D&G Light Blue"><h3>D&G Light Blue</h3></a>
+                <a href="producto-detalle-2.html" class="product-card"><img src="img/miss.dior.png" alt="Miss Dior"><h3>Miss Dior</h3></a>
+                <a href="producto-detalle-3.html" class="product-card"><img src="img/scandal.webp" alt="Scandal"><h3>Scandal</h3></a>
+                <a href="producto-detalle-4.html" class="product-card"><img src="img/jean_paul.webp" alt="Jean paul Classique"><h3>Jean paul Classique</h3></a>
+                <a href="producto-detalle-5.html" class="product-card"><img src="img/lbel.jpg" alt="L'Bel Mithyka"><h3>L'Bel Mithyka</h3></a>
+                <a href="producto-detalle-6.html" class="product-card"><img src="img/black_opium.jpg" alt="Black Opium"><h3>Black Opium</h3></a>
+                <a href="producto-detalle-7.html" class="product-card"><img src="img/coco_chanel.avif" alt="Coco Mademoiselle"><h3>Coco Mademoiselle</h3></a>
+                <a href="producto-detalle-8.html" class="product-card"><img src="img/hugo_boss.avif" alt="Boss The Scent"><h3>Boss The Scent</h3></a>  
+                <a href="producto-detalle-9.html" class="product-card"><img src="img/versache.jpg" alt="Versace Eros"><h3>Versace Eros</h3></a>
+                <a href="producto-detalle-10.html" class="product-card"><img src="img/coach.avif" alt="Coach for Men"><h3>Coach for Men</h3></a>
+                <a href="producto-detalle-11.html" class="product-card"><img src="img/acqua_di_gio.png" alt="Acqua di Giò"><h3>Acqua di Giò</h3></a>
+                <a href="producto-detalle-12.html" class="product-card"><img src="img/valentino.jpeg" alt="Valentino Uomo"><h3>Valentino Uomo</h3></a>
+                <a href="producto-detalle-13.html" class="product-card"><img src="img/sensus.webp" alt="Sensus"><h3>Sensus by L'Bel</h3></a>
+                <a href="producto-detalle-14.html" class="product-card"><img src="img/sauvage.jpg" alt="Dior Sauvage"><h3>Dior Sauvage</h3></a>
+                <a href="producto-detalle-15.html" class="product-card"><img src="img/one_million.avif" alt="1 Million"><h3>1 Million</h3></a>
+                <a href="producto-detalle-16.html" class="product-card"><img src="img/moschino.jpg" alt="Moschino Toy Boy"><h3>Moschino Toy Boy</h3></a>
+            </div>
         </main>
     </div>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.querySelector('.search-bar input[type="search"]');
-            
-            if (searchInput) {
-                searchInput.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        const query = searchInput.value.trim();
-                        if (query) {
-                            window.location.href = 'resultados-busqueda.html?q=' + encodeURIComponent(query);
-                        }
-                        e.preventDefault();
-                    }
-                });
-            }
-        });
-    </script>
-    </body>
+</body>
 </html>

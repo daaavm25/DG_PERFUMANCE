@@ -3,69 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Perfumes - Catálogo Mujer</title>
+    <title>Catálogo Mujer</title>
     <link rel="stylesheet" href="css/estilos.css">
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
+    <button onclick="history.back()" class="btn-back-fixed">&larr;</button>
     <div class="main-app-container">
- 
         <header class="main-header">
-            
-            <div class="nav-back">
-                <button onclick="window.history.back()">
-                    <span class="material-symbols-outlined">arrow_back</span>
-                </button>
-            </div>
-            <div class="search-bar">
-                <input type="search" placeholder="Buscar">
-            </div>
             <nav class="main-nav">
-                <a href="catalogo-general.html" class="nav-item">Ver todo</a>
+                <a href="inicio.html" class="nav-item">Inicio</a>
+                <a href="catalogo-general.html" class="nav-item">Ver Todo</a>
                 <a href="catalogo-hombre.html" class="nav-item">Hombre</a>
-      
                 <a href="catalogo-mujer.html" class="nav-item active">Mujer</a>
-                <a href="carrito.html" class="nav-item cart-link">Carrito</a>
+                <a href="carrito.html" class="nav-item">Carrito</a>
+            
             </nav>
         </header>
 
-   
-        <main class="catalogo-content">
-            <h2 class="section-title" id="catalogo-titulo">Mujer</h2>
-            
-            <section class="product-grid">
-    
-                <div class="product-card"><img src="https://ss701.liverpool.com.mx/xl/1137285114.jpg" alt="Mujer"><p>Eau de perfum</p></div>
-                <div class="product-card"><img src="https://media.vogue.mx/photos/635958c1356d41ac3d0b6a5b/master/w_1600%2Cc_limit/Perfumes-Mujeres-Gaultier-Scandal.jpg" alt="Mujer"><p>Scandal</p></div>
-                <div class="product-card"><img src="https://m.media-amazon.com/images/I/61kVMWOufNL._UF1000,1000_QL80_.jpg" alt="Mujer"><p>Lbeal</p></div>
-                <div class="product-card"><img src="https://arome.mx/cdn/shop/files/perfume-212-vip-rose-para-mujer-de-carolina-herrera-eau-de-parfum-arome-mexico-1.jpg?v=1725550285" alt="Mujer"><p>212 VIP</p></div>                
-                <div class="product-card"><img src="https://i.pinimg.com/736x/e3/1f/04/e31f048ef63b7e64658ef03fda6be200.jpg" alt="Mujer"><p>Dior</p></div>
-                <div class="product-card"><img src="https://arome.mx/cdn/shop/files/perfume-q-para-mujer-de-dolce-and-gabbana-edp-100ml-arome-mexico-1.jpg?v=1705347572" alt="Mujer"><p>Dolce && gabbana</p></div>
-                <div class="product-card"><img src="https://ss701.liverpool.com.mx/xl/53758509.jpg" alt="Mujer"><p>Daisy</p></div>
-                <div class="product-card"><img src="https://abscents.com.mx/cdn/shop/files/144300_img-7699-juicy-couture-viva-la-juicy-le-bubbly_720-fotor-2024040317822.jpg?v=1712185714&width=1080" alt="Mujer"><p>Juicy</p></div>
-                
-          
-            </section>
+        <main>
+            <h2 class="section-title">Perfumes de Mujer</h2>
+            <div class="product-grid">
+                <a href="producto-detalle-1.html" class="product-card"><img src="img/Dolce_gabbana.webp" alt="D&G Light Blue"><h3>D&G Light Blue</h3></a>
+                <a href="producto-detalle-2.html" class="product-card"><img src="img/miss.dior.png" alt="Miss Dior"><h3>Miss Dior</h3></a>
+                <a href="producto-detalle-3.html" class="product-card"><img src="img/scandal.webp" alt="Scandal"><h3>Scandal</h3></a>
+                <a href="producto-detalle-4.html" class="product-card"><img src="img/jean_paul.webp" alt="Jean paul Classique"><h3>Jean ppaul Classique</h3></a>
+                <a href="producto-detalle-5.html" class="product-card"><img src="img/lbel.jpg" alt="L'Bel Mithyka"><h3>L'Bel Mithyka</h3></a>
+                <a href="producto-detalle-6.html" class="product-card"><img src="img/black_opium.jpg" alt="Black Opium"><h3>Black Opium</h3></a>
+                <a href="producto-detalle-7.html" class="product-card"><img src="img/coco_chanel.avif" alt="Coco Mademoiselle"><h3>Coco Mademoiselle</h3></a>
+                <a href="producto-detalle-8.html" class="product-card"><img src="img/hugo_boss.avif" alt="Boss The Scent"><h3>Boss The Scent</h3></a>
+            </div>
         </main>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.querySelector('.search-bar input[type="search"]');
-            
-            if (searchInput) {
-                searchInput.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        const query = searchInput.value.trim();
-                        if (query) {
-                            window.location.href = 'resultados-busqueda.html?q=' + encodeURIComponent(query);
-                        }
-                        e.preventDefault();
-                    }
-                });
-            }
-        });
-    </script>
-    </body>
+</body>
 </html>

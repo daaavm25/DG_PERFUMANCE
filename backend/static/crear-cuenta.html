@@ -3,31 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Perfumes - Crear Cuenta</title>
+    <title>Crear Cuenta</title>
     <link rel="stylesheet" href="css/estilos.css">
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
-    
-    <div class="nav-back">
-        <button onclick="window.history.back()">
-            <span class="material-symbols-outlined">arrow_back</span>
-        </button>
-    </div>
-    <main class="registro-container">
-        <h1>Crear cuenta</h1>
-        <form action="/api/registro" method="POST">
+    <div class="registro-container">
+        <form action="login.html">
+            <h2>Crear Cuenta</h2>
             <input type="text" placeholder="Nombre" required>
             <input type="text" placeholder="Apellido" required>
             <input type="email" placeholder="Correo Electrónico" required>
             <input type="text" placeholder="Nombre de usuario" required>
-            <input type="password" placeholder="Contraseña" required>
-            <input type="password" placeholder="Confirmar contraseña" required>
-            
-            <button type="submit" class="btn-crear">Crear</button>
+            <input type="password" placeholder="Crear Contraseña" required>
+            <input type="password" placeholder="Confirmar Contraseña" required>
+            <button type="submit">Registrarse</button>
+            <div class="enlaces-secundarios">
+                <p>¿Ya tienes cuenta? <a href="login.html">Inicia Sesión</a></p>
+            </div>
         </form>
-        <p class="ya-tienes-cuenta">¿Ya tienes cuenta? <a href="login.html">Inicia sesion</a></p>
-    </main>
+    </div>
 </body>
 </html>
