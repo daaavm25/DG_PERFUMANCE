@@ -1,25 +1,78 @@
-import os
-from flask import Flask, send_from_directory, jsonify
+from flask import Flask, render_template
 from flask_cors import CORS
+from flask_talisman import Talisman
+from config import SECRET_KEY
 
 from routes.auth_routes import auth_bp
 from routes.catalogo_routes import catalogo_bp
 from routes.carrito_routes import carrito_bp
+from routes.venta_routes import venta_bp
 
-app = Flask(__name__, static_folder='static', static_url_path='/')
-CORS(app)
+app = Flask(__name__)
+app.secret_key = SECRET_KEY
+CORS(app, supports_credentials=True)
+Talisman(app, content_security_policy=None)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(catalogo_bp)
 app.register_blueprint(carrito_bp)
-
-@app.route('/health')
-def health():
-    return jsonify({'status': 'ok', 'app': 'DG_PERFUMANCE'})
+app.register_blueprint(venta_bp)
 
 @app.route('/')
-def index():
-    return send_from_directory(app.static_folder, 'inicio.html')
+def inicio():
+    return render_template('inicio.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/carrito')
+def carrito():
+    return render_template('carrito.html')
+
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    return render_template('admin_dashboard.html')
+
+@app.route('/admin_pedidos')
+def admin_pedidos():
+    return render_template('admin_pedidos.html')
+
+@app.route('/admin_productos')
+def admin_productos():
+    return render_template('admin_productos.html')
+
+@app.route('/admin_usuarios')
+def admin_usuarios():
+    return render_template('admin_usuarios.html')
+
+@app.route('/catalogo-general')
+def catalogo_general():
+    return render_template('catalogo-general.html')
+
+@app.route('/catalogo-hombre')
+def catalogo_hombre():
+    return render_template('catologo-hombre.html')
+
+@app.route('/catalogo-mujer')
+def catalogo_mujer():
+    return render_template('catalogo-mujer.html')
+
+@app.route('/crear-cuenta')
+def crear_cuenta():
+    return render_template('crear-cuenta.html')
+
+@app.route('/pago')
+def pago():
+    return render_template('pago.html')
+
+@app.route('/producto-detalle')
+def producto_detalle():
+    return render_template('producto-detalle.html')
+
+@app.route('/recuperar')
+def recuperar():
+    return render_template('recuperar.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

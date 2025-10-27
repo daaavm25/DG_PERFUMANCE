@@ -13,3 +13,5 @@ def get_db_connection():
         port=os.getenv("DB_PORT")
     )
     return conn
+
+SECRET_KEY = os.getenv("SECRET_KEY")

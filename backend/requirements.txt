@@ -3,3 +3,4 @@ psycopg2-binary
 python-dotenv
 argon2-cffi
 flask-cors
+flask-talisman

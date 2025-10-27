@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <button onclick="history.back()" class="btn-back-fixed">&larr;</button>
+    <div class="main-app-container">
+         <header class="main-header">
+            <nav class="main-nav">
+                <a href="{{url_for('inicio')}}" class="nav-item">Inicio</a>
+                <a href="{{url_for('catalogo-general')}}" class="nav-item">Ver Todo</a>
+                <a href="{{url_for('catalogo-hombre')}}" class="nav-item">Hombre</a>
+                <a href="{{url_for('catalogo-mujer')}}" class="nav-item">Mujer</a>
+                <a href="{{url_for('carrito')}}" class="nav-item active">Carrito</a>
+                <a href="{{url_for('login')}}" class="nav-item">Iniciar Sesión</a>
+            </nav>
+        </header>
+
+        <main>
+            <h2 class="section-title">Carrito de Compras</h2>
+            <div class="cart-layout">
+                
+                <div class="cart-items" id="cart-items-container">
+                    
+                    <div class="empty-cart-message" id="empty-cart-msg">
+                        <p>Tu carrito está vacío.</p>
+                        <a href="catalogo-general.html" class="btn" style="width: auto; padding: 10px 20px;">Ver Catálogo</a>
+                    </div>
+
+                    </div>
+                
+                <aside class="cart-summary" id="cart-summary-container">
+                    <h3>Resumen de Compra</h3>
+                    <hr>
+                    <div class="summary-line">
+                        <span>Subtotal:</span>
+                        <span id="summary-subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-line">
+                        <span>Envío:</span>
+                        <span id="summary-envio">$0.00</span>
+                    </div>
+                    <hr>
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="summary-total">$0.00</span>
+                    </div>
+                    <a href="pago.html" class="btn" style="margin-top: 20px;">Proceder al Pago</a>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/carrito.js') }}" defer></script>
+</body>
+</html>

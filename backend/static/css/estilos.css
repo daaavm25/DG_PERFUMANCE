@@ -335,3 +335,123 @@ button:hover, .btn:hover {
     background-color: #cf0d0d;
     color: #f0f0f0;
 }
+
+#toast-alerta {
+    visibility: hidden; 
+    opacity: 0;
+    min-width: 250px; 
+    background-color: #4CAF50; 
+    color: white;
+    text-align: center; 
+    border-radius: 5px; 
+    padding: 16px; 
+    position: fixed; 
+    z-index: 1001; 
+    left: 50%; 
+    transform: translateX(-50%);
+    bottom: 30px; 
+    font-size: 1.1em;
+    transition: visibility 0.5s, opacity 0.5s linear; 
+}
+
+#toast-alerta.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    background-color: #0d0d0d;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    position: relative; 
+    gap: 15px;
+}
+
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 5px;
+    background-color: #1a1a1a;
+}
+
+.cart-item-info {
+    flex-grow: 1; 
+}
+
+.cart-item-info h3 {
+    font-size: 1.1em;
+    margin: 0 0 5px 0;
+    color: #f0f0f0;
+}
+
+.cart-item-info p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #aaa;
+}
+
+.cart-item-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #f0f0f0;
+    margin-left: 20px;
+}
+
+.cart-item-remove {
+    background-color: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.8em;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 10px;
+    margin-left: 10px;
+    width: auto; 
+}
+
+.cart-item-remove:hover {
+    color: #cf0d0d;
+    background-color: transparent;
+}
+
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.quantity-btn {
+    background-color: #333; 
+    color: #f0f0f0;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; 
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: background-color 0.2s;
+   
+    margin-top: 0; 
+}
+
+.quantity-btn:hover {
+    background-color: #cf0d0d; 
+}
+
+.quantity-text {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #f0f0f0;
+    min-width: 20px; 
+    text-align: center;
+}
