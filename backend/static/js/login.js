@@ -5,7 +5,7 @@ document.querySelector('form').addEventListener('submit', async (e) => {
   const password = document.querySelector('input[placeholder="Contraseña"]').value;
 
   try {
-    const response = await fetch('/api/login', {
+    const response = await fetch(`/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })

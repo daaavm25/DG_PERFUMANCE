@@ -105,13 +105,16 @@ def login():
             'username': user[1],
             'id_rol': user[3]
         }
-        
-        if user[3].lower() == 'administrador':
-            destino = '/admin_dashboard.html'
-        elif user[3].lower() == 'empleado':
-            destino = '/admin_pedidos.html'
+        rol = user[3].strip().lower()
+
+        if rol == 'gerente':
+            destino = '/admin_dashboard'
+        elif rol == 'empleado':
+            destino = '/admin_pedidos'
+        elif rol == 'cliente':
+            destino = '/'
         else:
-            destino = '/inicio.html'    
+            destino = '/login'    
 
         return jsonify({
             "message": f"Bievenido {username}",

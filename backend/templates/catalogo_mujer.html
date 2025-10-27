@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Mujer</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <button onclick="history.back()" class="btn-back-fixed">&larr;</button>
+    <div class="main-app-container">
+        <header class="main-header">
+            <nav class="main-nav">
+                <a href="{{url_for('inicio')}}" class="nav-item">Inicio</a>
+                <a href="{{url_for('catalogo_general')}}" class="nav-item">Ver Todo</a>
+                <a href="{{url_for('catalogo_hombre')}}" class="nav-item">Hombre</a>
+                <a href="{{url_for('catalogo_mujer')}}" class="nav-item active">Mujer</a>
+                <a href="{{url_for('carrito')}}" class="nav-item">Carrito</a>
+            
+            </nav>
+        </header>
+
+        <main>
+            <h2 class="section-title">Perfumes de Mujer</h2>
+            <div class="product-grid">
+    <a href="{{url_for('producto_detalle', id=1)}}" class="product-card"><img src="{{ url_for('static', filename='img/Dolce_gabbana.webp')}}" alt="D&G Light Blue"><h3>D&G Light Blue</h3></a>
+    <a href="{{url_for('producto_detalle', id=2)}}" class="product-card"><img src="{{ url_for('static', filename='img/miss.dior.png')}}" alt="Miss Dior"><h3>Miss Dior</h3></a>
+    <a href="{{url_for('producto_detalle', id=3)}}" class="product-card"><img src="{{ url_for('static', filename='img/scandal.webp')}}" alt="Scandal"><h3>Scandal</h3></a>
+    <a href="{{url_for('producto_detalle', id=4)}}" class="product-card"><img src="{{ url_for('static', filename='img/jean_paul.webp')}}" alt="Jean paul Classique"><h3>Jean paul Classique</h3></a>
+    <a href="{{url_for('producto_detalle', id=5)}}" class="product-card"><img src="{{ url_for('static', filename='img/lbel.jpg')}}" alt="L'Bel Mithyka"><h3>L'Bel Mithyka</h3></a>
+    <a href="{{url_for('producto_detalle', id=6)}}" class="product-card"><img src="{{ url_for('static', filename='img/black_opium.jpg')}}" alt="Black Opium"><h3>Black Opium</h3></a>
+    <a href="{{url_for('producto_detalle', id=7)}}" class="product-card"><img src="{{ url_for('static', filename='img/coco_chanel.avif')}}" alt="Coco Mademoiselle"><h3>Coco Mademoiselle</h3></a>
+    <a href="{{url_for('producto_detalle', id=8)}}" class="product-card"><img src="{{ url_for('static', filename='img/hugo_boss.avif')}}" alt="Boss The Scent"><h3>Boss The Scent</h3></a>
+    
+            </div>
+        </main>
+    </div>
+</body>
+</html>

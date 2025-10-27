@@ -46,33 +46,35 @@ def admin_productos():
 def admin_usuarios():
     return render_template('admin_usuarios.html')
 
-@app.route('/catalogo-general')
+@app.route('/catalogo_general')
 def catalogo_general():
-    return render_template('catalogo-general.html')
+    return render_template('catalogo_general.html')
 
-@app.route('/catalogo-hombre')
+@app.route('/catalogo_hombre')
 def catalogo_hombre():
-    return render_template('catologo-hombre.html')
+    return render_template('catalogo_hombre.html')
 
-@app.route('/catalogo-mujer')
+@app.route('/catalogo_mujer')
 def catalogo_mujer():
-    return render_template('catalogo-mujer.html')
+    return render_template('catalogo_mujer.html')
 
-@app.route('/crear-cuenta')
+@app.route('/crear_cuenta')
 def crear_cuenta():
-    return render_template('crear-cuenta.html')
+    return render_template('crear_cuenta.html')
 
 @app.route('/pago')
 def pago():
     return render_template('pago.html')
 
-@app.route('/producto-detalle')
+@app.route('/producto_detalle')
 def producto_detalle():
-    return render_template('producto-detalle.html')
+    return render_template('producto_detalle.html')
 
 @app.route('/recuperar')
 def recuperar():
     return render_template('recuperar.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

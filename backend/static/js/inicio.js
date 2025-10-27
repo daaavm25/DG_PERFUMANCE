@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
     const productGrid = document.querySelector('.product-grid');
 
     try {
-        const response = await fetch ("http://localhost:5000/api/perfumes");
+        const response = await fetch (`api/perfumes`);
         if (!response.ok) throw new Error("Error al cargar perfumes");
         const productos = await response.json()
 

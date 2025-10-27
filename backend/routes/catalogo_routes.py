@@ -133,12 +133,17 @@ def obtener_perfumes():
                 "imagen_url": f"/static/img/perfume_{row[0]}.jpg"            
         }for row in perfumes]
         return jsonify(data), 200
+    
     except Exception as e:
         print(f"Error al obtener perfumes: {e}")
         return jsonify({"error": "No se pudieron obtener los perfumes"}), 500
+    finally:
+        if conn:
+            conn.close()
     
-@catalogo_bp.route('/catalogo/perfumes/<int:id_perfumes>', methods=['GET'])
+@catalogo_bp.route('/catalogo/perfumes/<int:id_perfume>', methods=['GET'])
 def obtener_perfumes_porID(id_perfume):
+    conn = None
     try:
         conn = get_db_connection()
         cur = conn.cursor()
@@ -146,12 +151,14 @@ def obtener_perfumes_porID(id_perfume):
         cur.execute("""SELECT p.id_perfume, p.marca, p.presentacion, p.talla, p.stock, p.fecha_caducidad, p.precio, g.descripcion AS genero 
                     FROM gestion_perfumace.perfume p
                     JOIN gestion_perfumance.genero g ON p.id_genero = g.id_genero
-                    WHERE p.id_perfume = %s;""")
+                    WHERE p.id_perfume = %s;""", 
+                    (id_perfume,))
         row = cur.fetchone()
         cur.close()
         conn.close()
         if not row:
             return jsonify({"error": "Perfume no encontrado"}), 404
+        
         data = {
             "id": row[0],
             "nombre": row[1],
@@ -164,6 +171,10 @@ def obtener_perfumes_porID(id_perfume):
             "imagen_url": f"/static/img/perfume_{row[0]}.jpg"
         }
         return jsonify(data), 200
+    
     except Exception as e:
         print(f"Error al obtener perfume: {e}")
         return jsonify({"error": "No se pudo obtener el perfume"}), 500
+    finally:
+        if conn:
+            conn.close()

@@ -12,9 +12,9 @@
          <header class="main-header">
             <nav class="main-nav">
                 <a href="{{url_for('inicio')}}" class="nav-item">Inicio</a>
-                <a href="{{url_for('catalogo-general')}}" class="nav-item">Ver Todo</a>
-                <a href="{{url_for('catalogo-hombre')}}" class="nav-item">Hombre</a>
-                <a href="{{url_for('catalogo-mujer')}}" class="nav-item">Mujer</a>
+                <a href="{{url_for('catalogo_general')}}" class="nav-item">Ver Todo</a>
+                <a href="{{url_for('catalogo_hombre')}}" class="nav-item">Hombre</a>
+                <a href="{{url_for('catalogo_mujer')}}" class="nav-item">Mujer</a>
                 <a href="{{url_for('carrito')}}" class="nav-item active">Carrito</a>
                 <a href="{{url_for('login')}}" class="nav-item">Iniciar Sesión</a>
             </nav>
@@ -28,7 +28,7 @@
                     
                     <div class="empty-cart-message" id="empty-cart-msg">
                         <p>Tu carrito está vacío.</p>
-                        <a href="catalogo-general.html" class="btn" style="width: auto; padding: 10px 20px;">Ver Catálogo</a>
+                        <a href="{{url_for('catalogo_general')}}" class="btn" style="width: auto; padding: 10px 20px;">Ver Catálogo</a>
                     </div>
 
                     </div>
@@ -49,7 +49,7 @@
                         <span>Total:</span>
                         <span id="summary-total">$0.00</span>
                     </div>
-                    <a href="pago.html" class="btn" style="margin-top: 20px;">Proceder al Pago</a>
+                    <a href="{{url_for('pago')}}" class="btn" style="margin-top: 20px;">Proceder al Pago</a>
                 </aside>
             </div>
         </main>

@@ -9,7 +9,7 @@
 <body>
     <div class="login-container">
         <div class="imagen-lado">
-            <img src="{{url_for('img/valentino.jpeg')}}" alt="Perfume de bienvenida">
+            <img src="{{url_for('static', filename='img/valentino.jpeg')}}" alt="Perfume de bienvenida">
             <p>Tu aroma, tu sello personal</p>
         </div>
         <div class="formulario-lado">
@@ -20,7 +20,7 @@
                     type="text" 
                     placeholder="Usuario" 
                     required
-                    pattern="[a-zA-Z0-9_]+"
+                    pattern="[a-zA-Z0-9_-]+"
                     title="Solo se permiten letras (a-z), números (0-9) y guion bajo (_).">
 
                 <input 
@@ -32,7 +32,7 @@
                 <a href="{{url_for('recuperar')}}" class="olvidaste-link">¿Olvidaste tu contraseña?</a>
                 <button type="submit">Login</button>
                 <div class="enlaces-secundarios">
-                    <p>¿No tienes cuenta? <a href="{{url_for('crear-cuenta')}}">Crear</a></p>
+                    <p>¿No tienes cuenta? <a href="{{url_for('crear_cuenta')}}">Crear</a></p>
                     <p><a href="{{url_for('inicio')}}">Iniciar como invitado</a></p>
                 </div>
             </form>
