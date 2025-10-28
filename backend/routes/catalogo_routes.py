@@ -149,19 +149,19 @@ def obtener_perfumes_porID(id_perfume):
         cur = conn.cursor()
 
         cur.execute("""SELECT p.id_perfume, p.marca, p.presentacion, p.talla, p.stock, p.fecha_caducidad, p.precio, g.descripcion AS genero 
-                    FROM gestion_perfumace.perfume p
+                    FROM gestion_perfumance.perfume p
                     JOIN gestion_perfumance.genero g ON p.id_genero = g.id_genero
                     WHERE p.id_perfume = %s;""", 
                     (id_perfume,))
         row = cur.fetchone()
         cur.close()
-        conn.close()
+
         if not row:
             return jsonify({"error": "Perfume no encontrado"}), 404
         
         data = {
-            "id": row[0],
-            "nombre": row[1],
+            "id_perfume": row[0],
+            "marca": row[1],
             "presentacion": row[2],
             "talla": row[3],
             "stock": row[4],

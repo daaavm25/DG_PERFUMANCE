@@ -58,10 +58,11 @@ def registro():
                     (data.get('username'), hashed_password, data.get('email'), 3, id_cliente))
         conn.commit()
         return jsonify({"message": "Registro exitoso"}), 201
+    
     except Exception as e:
         current_app.logger.error(f"Error en el registro: {e}")
         if conn:
-            conn.rollback()
+            conn.rollback()  
         return jsonify({"error": "Error interno del servidor"}), 500
     finally:
         if conn:

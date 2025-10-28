@@ -9,44 +9,62 @@ carrito_bp = Blueprint('carrito', __name__, url_prefix='/api')
 def agregar_al_carrito():
     if 'usuario' not in session:
         return jsonify({"error": "Necesita iniciar sesion para continuar"}), 401
+    
     data = request.get_json()
     id_perfume = data.get('id_perfume')
     cantidad = int(data.get('cantidad', 1))
+
     if not id_perfume or  cantidad <= 0:
             return jsonify({"error": "Datos invalidos."}), 400
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("""SELECT marca, stock 
+        cur.execute("""SELECT marca, stock, precio 
                     FROM gestion_perfumance.perfume 
                     WHERE id_perfume = %s""", 
                     (id_perfume,))
         perfume = cur.fetchone()
+
         cur.close()
-        conn.close()
+
         if not perfume:
             return jsonify({"error": "Producto no encontrado."}), 404
+        
         if perfume[1] < cantidad:
             return jsonify({"error": "Stock insuficiente."}), 400
+        
         carrito = session.get('carrito', [])
         existente = next((item for item in carrito if item['id_perfume'] == id_perfume), None)
 
         if existente:
             existente ['cantidad'] += cantidad
+            existente ['subtotal'] = existente['cantidad'] * existente['precio']
         else:
-            carrito.appedn({
+            carrito.append({
                 "id_perfume": id_perfume, 
-                "cantidad": cantidad
+                "nombre": marca,
+                "precio": float(precio),
+                "cantidad": cantidad,
+                "subtotal": float(precio) * cantidad,
+                "imagen_url": f"/static/img/perfume_{id_perfume}.jpg"
             })
         
         session['carrito'] = carrito
+        session.modified =True
+
         return jsonify({"message": "Producto agregado al carrito.", "carrito": carrito}), 200
     except (psycopg2.Error,Exception) as e:
         current_app.logger.error(f"Error al agregar al carrito: {e}")
         return jsonify({"error": "Error interno del servidor"}), 500
+    finally:
+        if conn:
+            conn.close()
 
 @carrito_bp.route('/carrito', methods=['GET'])
 def ver_carrito():
+    if 'usuario' not in session:
+        return jsonify({"error": "No autorizado"}), 400
+    
     carrito = session.get('carrito', [])
     return jsonify({"carrito": carrito}), 200
 

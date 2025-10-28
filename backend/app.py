@@ -48,15 +48,46 @@ def admin_usuarios():
 
 @app.route('/catalogo_general')
 def catalogo_general():
-    return render_template('catalogo_general.html')
+    from config import get_db_connection
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(""" SELECT id_perfume, marca
+                FROM gestion_perfumance.perfume
+                ORDER BY id_perfume;""")
+    perfumes = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('catalogo_general.html', perfumes=perfumes)
 
 @app.route('/catalogo_hombre')
 def catalogo_hombre():
-    return render_template('catalogo_hombre.html')
+    from config import get_db_connection
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(""" SELECT p.id_perfume, p.marca
+                FROM gestion_perfumance.perfume p
+                JOIN gestion_perfumance.genero g ON p.id_genero = g.id_genero
+                WHERE LOWER(g.descripcion) = 'hombre'
+                ORDER BY p.id_perfume;""")
+    perfumes = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('catalogo_hombre.html', perfumes=perfumes)
 
 @app.route('/catalogo_mujer')
 def catalogo_mujer():
-    return render_template('catalogo_mujer.html')
+    from config import get_db_connection
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(""" SELECT p.id_perfume, p.marca
+                FROM gestion_perfumance.perfume p
+                JOIN gestion_perfumance.genero g ON p.id_genero = g.id_genero
+                WHERE LOWER(g.descripcion) = 'mujer'
+                ORDER BY p.id_perfume;""")
+    perfumes = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('catalogo_mujer.html', perfumes=perfumes)
 
 @app.route('/crear_cuenta')
 def crear_cuenta():
@@ -73,7 +104,6 @@ def producto_detalle():
 @app.route('/recuperar')
 def recuperar():
     return render_template('recuperar.html')
-
 
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        const response = await fetch(`/api/perfumes/${productoId}`);
+        const response = await fetch(`http://localhost:5000/api/catalogo/perfumes/${productoId}`);
         if (!response.ok) throw new Error("No se encontro el producto.")
         const producto = await response.json();
 
@@ -32,17 +32,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (btnComprar) {
         btnComprar.addEventListener('click', async () =>{
             try{
-                const res = await fetch(`/api/carrito`,{
+                const res = await fetch(`http://localhost:5000/api/carrito`,{
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     credentials: "include",
                     body: JSON.stringify({id_perfume: currentProductId, cantidad: 1})
                 });
+                
                 if (res.status === 401){
                     window.location.href = "/login";
                     return;
                 }
                 if (!res.ok) throw new Error("Error al agregar al carrito.");
+
+                const data = await res.json()
+                console.log("Carrito actuaalizado:", data);
+
+                const toastAlerta = document.getElementById('toast-alerta');
                 if (toastAlerta){
                     toastAlerta.classList.add('show');
                     setTimeout(() => toastAlerta.classList.remove('show'), 3000);

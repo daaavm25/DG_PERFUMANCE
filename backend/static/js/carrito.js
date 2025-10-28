@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const  envio = 0.00;
         const total = subtotal + envio;
 
-        subtotalEl.textContent = '$${subtotal.toFixed(2)}';
-        envioEl.textContent = '$${envio.toFixed(2)}';
-        totalEl.textContent = '$${total.toFixed(2)}';
+        subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+        envioEl.textContent = `$${envio.toFixed(2)}`;
+        totalEl.textContent = `$${total.toFixed(2)}`;
     }catch (error){
         console.error("Error en carrito.js", error);
         itemsContainer.innerHTML = "<p>Error al cargar el carrito.</p>";
