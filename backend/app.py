@@ -1,7 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_cors import CORS
 from flask_talisman import Talisman
-from config import SECRET_KEY
+from config import SECRET_KEY, get_db_connection
 
 from routes.auth_routes import auth_bp
 from routes.catalogo_routes import catalogo_bp
@@ -32,7 +32,35 @@ def carrito():
 
 @app.route('/admin_dashboard')
 def admin_dashboard():
-    return render_template('admin_dashboard.html')
+    conn = None
+    total_productos = 0
+    total_usuarios = 0
+    total_pedidos = 0
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute("""SELECT COUNT(*)
+                    FROM gestion_perfumance.perfume""")
+        total_productos = cur.fetchone()[0]
+
+        cur.execute("""SELECT COUNT(*)
+                    FROM gestion_perfumance.usuario""")
+        total_usuarios = cur.fetchone()[0]
+
+        cur.execute("""SELECT COUNT(*)
+                    FROM gestion_perfumance.venta""")
+        total_usuarios = cur.fetchone()[0]
+    except Exception as e:
+        print(f"Error al cargar el dashboard: {e}")
+    finally:
+        if conn:
+            conn.close()
+    
+    return render_template('admin_dashboard.html', 
+                           total_prod = total_productos, 
+                           total_usr = total_usuarios,
+                           total_ped = total_pedidos)
 
 @app.route('/admin_pedidos')
 def admin_pedidos():
