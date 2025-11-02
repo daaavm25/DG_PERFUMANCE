@@ -455,3 +455,172 @@ button:hover, .btn:hover {
     min-width: 20px; 
     text-align: center;
 }
+/* === ESTILOS PARA CHECKOUT (PAGO) === */
+
+
+.checkout-form {
+    background-color: #0d0d0d;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.checkout-summary {
+    position: sticky; /* Hacemos que el resumen te siga */
+    top: 20px;
+    background-color: #0d0d0d;
+    border-radius: 10px;
+    padding: 20px;
+    height: fit-content;
+}
+
+.form-section h3 {
+    font-size: 1.4em;
+    color: #f0f0f0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    color: #aaa;
+    font-weight: bold;
+}
+
+/* Modificamos los inputs para que no sean redondos */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 0; /* Quitamos el margen inferior global */
+    background-color: #1a1a1a; /* Fondo más oscuro */
+    border: 1px solid #333; /* Borde sutil */
+    border-radius: 5px; /* Bordes rectos, no redondos */
+    color: #f0f0f0;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+.form-group select {
+    padding: 11px 12px; /* Ajuste para el select */
+}
+
+/* Cuando se selecciona un campo */
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #cf0d0d;
+    box-shadow: 0 0 0 2px rgba(207, 13, 13, 0.3);
+}
+
+/* Para poner campos uno al lado del otro */
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+.form-row .form-group {
+    flex: 1; /* Ocupa el 50% del espacio */
+}
+
+
+/* --- Estilos para Pestañas de Pago --- */
+.payment-methods {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.payment-method {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    color: #aaa;
+    transition: all 0.2s ease;
+}
+.payment-method:hover {
+    background-color: #2a2a2a;
+}
+.payment-method.active {
+    color: #f0f0f0;
+    border-color: #cf0d0d;
+    background-color: #221a1a;
+    box-shadow: 0 0 10px rgba(207, 13, 13, 0.2);
+}
+
+/* Contenido de las pestañas */
+.payment-details {
+    display: none; /* Oculto por defecto */
+}
+.payment-details.active {
+    display: block; /* Visible cuando está activo */
+}
+
+.btn-paypal {
+    background-color: #00457C; /* Color PayPal */
+    width: 100%;
+    padding: 12px;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    color: white;
+}
+.btn-paypal:hover {
+    background-color: #003057;
+}
+
+
+/* --- Estilos para Resumen de Pedido --- */
+.summary-item-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 15px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.summary-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.summary-item-info {
+    flex-grow: 1;
+}
+.summary-item-info h4 {
+    font-size: 1em;
+    margin: 0 0 4px 0;
+    color: #f0f0f0;
+}
+.summary-item-info p {
+    font-size: 0.9em;
+    margin: 0;
+    color: #aaa;
+}
+
+.summary-item-price {
+    font-weight: bold;
+    color: #f0f0f0;
+}

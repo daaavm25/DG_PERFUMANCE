@@ -21,57 +21,178 @@
 
         <main>
             <h2 class="section-title">Finalizar Compra</h2>
+            
+            <!-- 
+              Usamos el mismo 'cart-layout' que ya tenías, 
+              que se divide en 2 columnas (2fr 1fr)
+            -->
             <div class="cart-layout">
-                <div class="payment-form">
+                
+                <!-- Columna Izquierda: Formulario de Envío y Pago -->
+                <div class="checkout-form">
                     <form id="payment-form">
-                        <h3>Información de Envío</h3>
                         
-                        <input type="text" id="nombre" placeholder="Nombre Completo" required 
-                               pattern="[a-zA-Z ]+" title="Solo letras y espacios.">
-                        
-                        <input type="text" id="direccion" placeholder="Dirección de Envío" required 
-                               minlength="10" title="Ingresa tu dirección completa.">
-                        
-                        <input type="text" id="ciudad_cp" placeholder="Ciudad, Estado, Código Postal" required 
-                               minlength="5">
-                        
+                        <!-- Sección 1: Información de Envío -->
+                        <section class="form-section">
+                            <h3>Información de Envío</h3>
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico</label>
+                                <input type="email" id="email" placeholder="tu@correo.com" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre(s)</label>
+                                    <input type="text" id="nombre" placeholder="Nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="apellidos">Apellidos</label>
+                                    <input type="text" id="apellidos" placeholder="Apellido" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="direccion">Calle y Número</label>
+                                <input type="text" id="direccion" placeholder="Nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="colonia">Colonia</label>
+                                <input type="text" id="colonia" placeholder="Colonia" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cp">Código Postal</label>
+                                    <input type="text" id="cp" placeholder="06000" required pattern="[0-9]{5}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ciudad">Ciudad</label>
+                                    <input type="text" id="ciudad" placeholder="Ciudad de México" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pais">País</label>
+                                <select id="pais" name="pais">
+                                    <option value="MX" selected>México</option>
+                                    <!-- Aquí se podrían agregar más países si fuera necesario -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono">Teléfono</label>
+                                <input type="tel" id="telefono" placeholder="55 1234 5678" required pattern="[0-9]{10}">
+                            </div>
+                        </section>
+
                         <hr>
-                        <h3>Detalles de Pago</h3>
+
+                        <!-- Sección 2: Método de Pago -->
+                        <section class="form-section">
+                            <h3>Detalles de Pago</h3>
+                            
+                            <!-- Pestañas para seleccionar método de pago -->
+                            <div class="payment-methods">
+                                <div class="payment-method active" data-target="tarjeta">
+                                    <svg ...> <!-- Icono de tarjeta --> </svg>
+                                    <span>Tarjeta de Crédito/Débito</span>
+                                </div>
+                                <div class="payment-method" data-target="paypal">
+                                    <svg ...> <!-- Icono de PayPal --> </svg>
+                                    <span>PayPal</span>
+                                </div>
+                            </div>
+
+                            <!-- Contenido de la pestaña "Tarjeta" -->
+                            <div id="payment-details-tarjeta" class="payment-details active">
+                                <div class="form-group">
+                                    <label for="tarjeta">Número de Tarjeta</label>
+                                    <input type="text" id="tarjeta" placeholder="1234 5678 9012 3456" required pattern="[0-9]{16}" maxlength="16">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fecha_exp">Expiración (MM/AA)</label>
+                                        <input type="text" id="fecha_exp" placeholder="MM/AA" required pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cvc">CVC</label>
+                                        <input type="text" id="cvc" placeholder="123" required pattern="[0-9]{3}" maxlength="3">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contenido de la pestaña "PayPal" (oculto por defecto) -->
+                            <div id="payment-details-paypal" class="payment-details">
+                                <p>Serás redirigido a PayPal para completar tu pago de forma segura.</p>
+                                <!-- Un botón de PayPal de ejemplo -->
+                                <button type="button" class="btn btn-paypal">Pagar con PayPal</button>
+                            </div>
+                        </section>
                         
-                        <input type="text" id="tarjeta" placeholder="Número de Tarjeta (16 dígitos)" required 
-                               pattern="[0-9]{16}" maxlength="16" title="16 dígitos sin espacios ni letras.">
-                        
-                        <input type="text" id="fecha_exp" placeholder="MM/AA" required 
-                               pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" title="Formato MM/AA (ej: 07/28)">
-                        
-                        <input type="text" id="cvc" placeholder="CVC (3 dígitos)" required 
-                               pattern="[0-9]{3}" maxlength="3" title="3 dígitos en la parte trasera de tu tarjeta.">
-                        
-                        <button type="submit" class="btn" style="margin-top: 20px;">Pagar Ahora</button>
+                        <button type="submit" class="btn" style="margin-top: 30px; width: 100%;">Pagar Ahora</button>
                     </form>
                 </div>
 
-                <aside class="cart-summary">
+                <!-- Columna Derecha: Resumen del Pedido -->
+                <aside class="cart-summary checkout-summary">
                     <h3>Resumen del Pedido</h3>
                     <hr>
+                    
+                    <!-- Lista de productos (con datos dummy) -->
+                    <div class="summary-item-list">
+                        {% for item in items %}
+                        <div class="summary-item">
+                            <img src="https://placehold.co/60x60/1e1e2d/cf0d0d?text=P" alt="{{ item.nombre }}">
+                            <div class="summary-item-info">
+                                <h4>{{ item.nombre }}</h4>
+                                <p>{{ item.talla }}</p>
+                            </div>
+                            <span class="summary-item-price">${{ "%.2f"|format(item.precio) }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Totales (con datos dummy de app.py) -->
                     <div class="summary-line">
                         <span>Subtotal:</span>
-                        <span id="summary-subtotal">$0.00</span>
+                        <span id="summary-subtotal">${{ "%.2f"|format(resumen.subtotal) }}</span>
                     </div>
                     <div class="summary-line">
                         <span>Envío:</span>
-                        <span id="summary-envio">$0.00</span>
+                        <span id="summary-envio">${{ "%.2f"|format(resumen.envio) }}</span>
                     </div>
                     <hr>
                     <div class="summary-total">
                         <span>Total:</span>
-                        <span id="summary-total">$0.00</span>
+                        <span id="summary-total">${{ "%.2f"|format(resumen.total) }}</span>
                     </div>
-                    </aside>
+                </aside>
             </div>
         </main>
     </div>
 
-    <script src="{{ url_for('static', filename='js/pago.js') }}" defer></script>
+    <!-- 
+      Usaremos un poco de JS para la funcionalidad 
+      de las pestañas de método de pago 
+    -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lógica para las pestañas de pago
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const paymentDetails = document.querySelectorAll('.payment-details');
+
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', () => {
+                    // 1. Quitar 'active' de todas las pestañas y contenidos
+                    paymentMethods.forEach(m => m.classList.remove('active'));
+                    paymentDetails.forEach(d => d.classList.remove('active'));
+
+                    // 2. Añadir 'active' a la pestaña clickeada
+                    method.classList.add('active');
+
+                    // 3. Añadir 'active' al contenido correspondiente
+                    const targetId = `payment-details-${method.dataset.target}`;
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Producto - Admin</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/admin_styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+    
+    <div class="admin-container">
+    
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h2 class="logo">Perfu<span class="logo-accent">mance</span></h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{url_for('admin_dashboard')}}" class="nav-link">
+                    <svg class="nav-icon" ...></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{url_for('admin_productos')}}" class="nav-link active">
+                    <svg class="nav-icon" ...></svg>
+                    <span>Productos</span>
+                </a>
+                <a href="{{url_for('admin_pedidos')}}" class="nav-link">
+                    <svg class="nav-icon" ...></svg>
+                    <span>Pedidos</span>
+                </a>
+                <a href="{{url_for('admin_usuarios')}}" class="nav-link">
+                    <svg class="nav-icon" ...></svg>
+                    <span>Usuarios</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link logout-link">
+                    <svg class="nav-icon" ...></svg>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Agregar Nuevo Perfume</h1>
+            </header>
+            
+            <form action="{{ url_for('crear_perfume') }}" method="POST" class="admin-form">
+                
+                <div class="form-group">
+                    <label for="marca">Marca:</label>
+                    <input type="text" id="marca" name="marca" required>
+                </div>
+                <div class="form-group">
+                    <label for="presentacion">Presentación (Ej: Eau de Parfum):</label>
+                    <input type="text" id="presentacion" name="presentacion" required>
+                </div>
+                <div class="form-group">
+                    <label for="talla">Talla (Ej: 100ml):</label>
+                    <input type="text" id="talla" name="talla">
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock (Cantidad):</label>
+                    <input type="number" id="stock" name="stock" value="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_caducidad">Fecha de Caducidad:</label>
+                    <input type="date" id="fecha_caducidad" name="fecha_caducidad">
+                </div>
+                <div class="form-group">
+                    <label for="id_genero">Género:</label>
+                    <select id="id_genero" name="id_genero" required>
+                        <option value="" disabled selected>Selecciona un género</option>
+                        {% for genero in generos %}
+                        <option value="{{ genero.id_genero }}">{{ genero.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar Perfume</button>
+                </div>
+            </form>
+            
+        </main>
+        </div>
+</body>
+</html>
