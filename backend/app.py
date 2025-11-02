@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-=======
-# Contenido COMPLETO para tu app.py
-
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash
->>>>>>> origin/main
 from flask_cors import CORS
 from flask_talisman import Talisman
 from config import SECRET_KEY, get_db_connection
@@ -41,7 +35,6 @@ def carrito():
 
 @app.route('/admin_dashboard')
 def admin_dashboard():
-<<<<<<< HEAD
     conn = None
     total_productos = 0
     total_usuarios = 0
@@ -61,41 +54,14 @@ def admin_dashboard():
         cur.execute("""SELECT COUNT(*)
                     FROM gestion_perfumance.venta""")
         total_usuarios = cur.fetchone()[0]
-=======
-    
-    conn = None
-    total_productos = 0
-    total_usuarios = 0
-    total_pedidos = 0 
-
-    try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-        
-        cur.execute("SELECT COUNT(*) FROM gestion_perfumance.perfume")
-        total_productos = cur.fetchone()[0]
-        
-        cur.execute("SELECT COUNT(*) FROM gestion_perfumance.usuario")
-        total_usuarios = cur.fetchone()[0]
-        
-        cur.execute("SELECT COUNT(*) FROM gestion_perfumance.venta")
-        total_pedidos = cur.fetchone()[0]
-
->>>>>>> origin/main
     except Exception as e:
         print(f"Error al cargar el dashboard: {e}")
     finally:
         if conn:
             conn.close()
-<<<<<<< HEAD
     
     return render_template('admin_dashboard.html', 
                            total_prod = total_productos, 
-=======
-
-    return render_template('admin_dashboard.html', 
-                           total_prod = total_productos,
->>>>>>> origin/main
                            total_usr = total_usuarios,
                            total_ped = total_pedidos)
 
