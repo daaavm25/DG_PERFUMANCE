@@ -325,3 +325,139 @@ ul {
     width: 20px;
     height: 20px;
 }
+/* ======================================= */
+/* === ESTILOS PARA FORMULARIOS ADMIN === */
+/* ======================================= */
+
+.admin-form {
+    background-color: #2a2a38;
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid #3a3a4a;
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px; /* Separa cada grupo de campos */
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #d1d1d1;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    background-color: #1e1e2d;
+    border: 1px solid #3a3a4a;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 14px;
+    box-sizing: border-box; 
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="date"]:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #e60026; /* Tu color rojo de acento */
+    box-shadow: 0 0 0 2px rgba(230, 0, 38, 0.3);
+}
+
+/* Esto le dará estilo al botón de guardar.
+  Asumo que ya tienes .btn y .btn-primary definidos.
+  Si no, este código se asegura de que se vea bien.
+*/
+.admin-form .btn-primary {
+    background-color: #e60026;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.admin-form .btn-primary:hover {
+    background-color: #c0001f;
+}
+/* ======================================= */
+/* === ESTILOS PARA BOTONES DE ACCIÓN === */
+/* ======================================= */
+/* (Pega esto al final de tu admin_styles.css) */
+
+.table-actions {
+    display: flex;
+    gap: 8px; /* Espacio entre botones */
+}
+
+.btn-action {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background-color: #3b82f6; /* Azul */
+}
+.btn-edit:hover {
+    background-color: #2563eb;
+}
+
+.btn-delete {
+    background-color: #ef4444; /* Rojo (el de tu marca es e60026, pero este es más de "peligro") */
+}
+.btn-delete:hover {
+    background-color: #dc2626;
+}
+
+/* ======================================= */
+/* === ESTILOS PARA MENSAJES FLASH === */
+/* ======================================= */
+
+/* Para los mensajes que aparecen arriba de la tabla */
+.flash-messages-container-local {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.flash-message {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Mensaje de éxito (verde) */
+.flash-success {
+    background-color: #28a745;
+}
+
+/* Mensaje de error (rojo) */
+.flash-danger {
+    background-color: #dc3545;
+}
+.status-pending {
+    background-color: #f59e0b; /* Color ámbar/amarillo */
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
