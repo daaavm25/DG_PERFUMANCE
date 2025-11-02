@@ -9,34 +9,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         return; 
     }
 
+    currentProductId = parseInt(productoId);
+
     try {
-        const response = await fetch(`http://localhost:5000/api/catalogo/perfumes/${productoId}`);
+        const response = await fetch(`/api/catalogo/perfumes/${productoId}`, {credentials: "include"});
         if (!response.ok) throw new Error("No se encontro el producto.")
         const producto = await response.json();
 
-        document.title = producto.nombre;
-        document.getElementById('producto-nombre').textContent = producto.nombre;
+        document.title = producto.nombre || producto.marca;
+        document.getElementById('producto-nombre').textContent = producto.nombre || producto.marca;
         document.getElementById('producto-precio').textContent = `$${producto.precio}`;
-        document.getElementById('producto-descripcion').textContent = producto.descripcion;
+        document.getElementById('producto-descripcion').textContent = producto.presentacion || "Perfume exclusivo de alta calidad.";
         document.getElementById('producto-imagen').src = producto.imagen_url;
-        document.getElementById('producto-imagen').alt = producto.nombre;
+        document.getElementById('producto-imagen').alt = producto.nombre || producto.marca;
 
-        currentProductId = producto.id;
     }catch (error){
         console.error("Error al cargar producto:", error);
         document.getElementById('producto-nombre').textContent = 'Error al cargar el producto.';
     }
+
     const btnComprar = document.querySelector('.btn');
     const toastAlerta = document.getElementById('toast-alerta');
 
     if (btnComprar) {
         btnComprar.addEventListener('click', async () =>{
             try{
-                const res = await fetch(`http://localhost:5000/api/carrito`,{
+                console.log("Agregando perfume con id:", currentProductId)
+
+                const res = await fetch(`/api/carrito/agregar`,{
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     credentials: "include",
-                    body: JSON.stringify({id_perfume: currentProductId, cantidad: 1})
+                    body: JSON.stringify({
+                        id_perfume: currentProductId,
+                        cantidad: 1})
                 });
                 
                 if (res.status === 401){
@@ -46,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!res.ok) throw new Error("Error al agregar al carrito.");
 
                 const data = await res.json()
-                console.log("Carrito actuaalizado:", data);
+                console.log("Carrito actualizado:", data);
 
                 const toastAlerta = document.getElementById('toast-alerta');
                 if (toastAlerta){

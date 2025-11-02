@@ -1,11 +1,11 @@
-from flask import Blueprint, request, jsonify, session, current_app
+from flask import Blueprint, request, jsonify, session, current_app, redirect, render_template, url_for
 from config import get_db_connection
 from datetime import date, datetime
 import psycopg2
 
 carrito_bp = Blueprint('carrito', __name__, url_prefix='/api') 
 
-@carrito_bp.route('/carrito', methods=['POST'])
+@carrito_bp.route('/carrito/agregar', methods=['POST'])
 def agregar_al_carrito():
     if 'usuario' not in session:
         return jsonify({"error": "Necesita iniciar sesion para continuar"}), 401
@@ -26,13 +26,18 @@ def agregar_al_carrito():
         perfume = cur.fetchone()
 
         cur.close()
+        conn.close()
 
         if not perfume:
             return jsonify({"error": "Producto no encontrado."}), 404
-        
-        if perfume[1] < cantidad:
-            return jsonify({"error": "Stock insuficiente."}), 400
-        
+
+        marca = perfume[0]
+        stock = perfume[1]
+        precio = float(perfume[2])
+
+        if stock < cantidad:
+            return jsonify({"error": "Stock insuficiente"}), 400
+                
         carrito = session.get('carrito', [])
         existente = next((item for item in carrito if item['id_perfume'] == id_perfume), None)
 
@@ -43,25 +48,28 @@ def agregar_al_carrito():
             carrito.append({
                 "id_perfume": id_perfume, 
                 "nombre": marca,
-                "precio": float(precio),
+                "precio": precio,
                 "cantidad": cantidad,
-                "subtotal": float(precio) * cantidad,
+                "subtotal": precio * cantidad,
                 "imagen_url": f"/static/img/perfume_{id_perfume}.jpg"
             })
         
         session['carrito'] = carrito
-        session.modified =True
+        session.modified = True
 
         return jsonify({"message": "Producto agregado al carrito.", "carrito": carrito}), 200
     except (psycopg2.Error,Exception) as e:
         current_app.logger.error(f"Error al agregar al carrito: {e}")
         return jsonify({"error": "Error interno del servidor"}), 500
-    finally:
-        if conn:
-            conn.close()
 
-@carrito_bp.route('/carrito', methods=['GET'])
+@carrito_bp.route('/carrito/ver', methods=['GET'])
 def ver_carrito():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    return render_template('carrito.html')
+
+@carrito_bp.route('/carrito_api', methods=['GET'])
+def ver_carrito_api():
     if 'usuario' not in session:
         return jsonify({"error": "No autorizado"}), 400
     

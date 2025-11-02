@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const paymentForm = document.querySelector('form');
 
     try{
-        const res = await fetch(`http://localhost:5000/api/carrito`, {credentials: "include"});
+        const res = await fetch(`/api/carrito`, {credentials: "include"});
         const carrito = await res.json();
         if(!carrito || carrito.length === 0){
             alert("Carrito vacio, agrega productos que desees comprar.");

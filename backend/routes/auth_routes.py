@@ -106,6 +106,7 @@ def login():
             'username': user[1],
             'id_rol': user[3]
         }
+        
         rol = user[3].strip().lower()
 
         if rol == 'gerente':
@@ -169,3 +170,11 @@ def recuperar():
     finally:
         if conn:
             conn.close()
+
+@auth_bp.route('/verificar_sesion', methods=['GET'])
+def verificar_sesion():
+    usuario = session.get('usuario')
+    if usuario:
+        return jsonify({"autenticado": True, "usuario": usuario})
+    else:
+        return jsonify({"autenticado": False}), 401

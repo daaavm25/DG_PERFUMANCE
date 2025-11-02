@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', async () =>{
     const productGrid = document.querySelector('.product-grid');
 
     try {
-        const response = await fetch (`api/perfumes`);
+        const response = await fetch (`/api/catalogo/perfume`, {credentials: "include"});
+
         if (!response.ok) throw new Error("Error al cargar perfumes");
         const productos = await response.json()
 
@@ -13,13 +14,41 @@ document.addEventListener('DOMContentLoaded', async () =>{
             return;
         }
         productGrid.innerHTML = novedades.map(p => 
-            `<a href="producto-detalle.html?id=${p.id}" class="product-card">
-            <img src="${p.imagen_url}" alt="${p.nombre}">
-            <h3>${p.nombre}</h3>
+            `<a href="/producto_detalle?id=${p.id}" class="product-card">
+                <img src="${p.imagen_url}" alt="${p.nombre}">
+                <h3>${p.nombre}</h3>
             </a>`
         ).join("");
     }catch (error){
         console.error("Error en inicio.js", error);
         productGrid.innerHTML = "<p>Error al cargar productos.</p>"
+    }
+});
+
+document.addEventListener('DOMContentLoaded', async () =>{
+    try{
+        const res = await fetch('/api/verificar_sesion', {credentials: "include"});
+        if (res.ok){
+            const data = await res.json();
+            if (data.autenticado){
+                const loginLink = document.querySelector('a[href="/login"]');
+                if (loginLink) loginLink.computedStyleMap.display = 'none';
+                const nav = document.querySelector('nav ul');
+                if (nav) {
+                    const li = document.getElementById('li');
+                    li.innerHTML = `<a href="#" id="logout">Cerrar Sesión (${data.usuario.username})</a>`;
+                    nav.appendChild(li);
+
+                    document.getElementById('logout').addEventListener('click', async () =>{
+                        await fetch('/api/logout', {
+                            method: "POST",
+                            credentials: "include"
+                        });
+                    });
+                }
+            }
+        }
+    }catch (error){
+        console.error("Error al verificar sesion:", error);
     }
 });

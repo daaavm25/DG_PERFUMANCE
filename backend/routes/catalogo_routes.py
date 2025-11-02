@@ -113,7 +113,7 @@ def obtener_perfumes():
         conn = get_db_connection()
         cur = conn.cursor()
 
-        cur.execute("""SELECT p.id_perfume, p.marca, p.presentacion, p.talla, p.stock, p.fecha_caducidad, p.precio g.descripcion AS genero
+        cur.execute("""SELECT p.id_perfume, p.marca, p.presentacion, p.talla, p.stock, p.fecha_caducidad, p.precio, g.descripcion AS genero
                     FROM gestion_perfumance.perfume p
                     JOIN gestion_perfumance.genero g ON p.id_genero = g.id_genero
                     ORDER BY p.id_perfume;""")
@@ -150,7 +150,7 @@ def obtener_perfumes_porID(id_perfume):
 
         cur.execute("""SELECT p.id_perfume, p.marca, p.presentacion, p.talla, p.stock, p.fecha_caducidad, p.precio, g.descripcion AS genero 
                     FROM gestion_perfumance.perfume p
-                    JOIN gestion_perfumance.genero g ON p.id_genero = g.id_genero
+                    INNER JOIN gestion_perfumance.genero g ON p.id_genero = g.id_genero
                     WHERE p.id_perfume = %s;""", 
                     (id_perfume,))
         row = cur.fetchone()

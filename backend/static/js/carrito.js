@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const totalEl = document.getElementById('summary-total');
 
     try{
-        const res = await fetch(`/api/carrito`, {credentials: "include"});
+        const res = await fetch(`/api/carrito_api`, {credentials: "include"});
 
         if (res.status === 401){
-            window.location.href = "/";
+            window.location.href = "/login";
             return;
         }
 

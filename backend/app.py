@@ -10,7 +10,7 @@ from routes.venta_routes import venta_bp
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, origins="http://localhost:5000")
 Talisman(app, content_security_policy=None)
 
 app.register_blueprint(auth_bp)
