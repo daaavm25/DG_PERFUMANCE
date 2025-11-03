@@ -1,19 +1,62 @@
-# Contenido para 'proyecto/routes/admin_routes.py' (Archivo NUEVO)
-
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from config import get_db_connection # Importamos tu función de conexión
 
 # 1. CREAMOS EL BLUEPRINT DE ADMIN
-admin_bp = Blueprint('admin', __name__, template_folder='templates')
+admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 # --- RUTA 2: DASHBOARD (GENERAL) ---
-@admin_bp.route('/admin/dashboard')
+@admin_bp.route('/dashboard')
 def admin_dashboard():
-    # (Aquí irá la lógica para contar productos, pedidos, etc.)
-    return render_template('admin_dashboard.html')
+    total_prod = 0
+    total_ped = 0
+    total_usr = 0
+    actividades = []
+
+    conn = None
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute("""SELECT COUNT(*) 
+                    FROM gestion_perfumance.perfume;""")
+        total_prod = cur.fetchone()[0]
+
+        cur.execute("""SELECT COUNT(*) 
+                    FROM gestion_perfumance.venta;""")
+        total_ped = cur.fetchone()[0]
+
+        cur.execute("""SELECT COUNT(*) 
+                    FROM gestion_perfumance.usuario;""")
+        total_usr = cur.fetchone()[0]
+
+        cur.execute("""SELECT a.descripcion, a.fecha, u.username, r.descripcion AS rol 
+                    FROM gestion_perfumance.actividad a
+                    JOIN gestion_perfumance.usuario u ON a.id_usuario = u.id_usuario
+                    JOIN gestion_perfumance.rol r ON u.id_rol = r.id_rol
+                    ORDER BY a.fecha DESC
+                    LIMIT 8;""")
+        rows = cur.fetchall()
+        actividades = [{
+            "descripcion": row[0],
+            "fecha": row[1],
+            "username": row[2],
+            "rol": row[3]
+        }for row in rows]
+
+    except Exception as e:
+        print(f"Error al cargar dashboard: {e}")
+    finally:
+        if conn:
+            conn.close()
+    print(f"Debug - Usuarios totales: {total_usr}")
+    return render_template('admin_dashboard.html',
+                           total_prod = total_prod,
+                           total_ped = total_ped,
+                           total_usr = total_usr, 
+                           actividades = actividades)
 
 # --- RUTA 3: GESTIÓN DE PRODUCTOS (TABLA) ---
-@admin_bp.route('/admin/productos')
+@admin_bp.route('/productos')
 def admin_productos():
     perfumes = []
     conn = None
@@ -50,12 +93,12 @@ def admin_productos():
     return render_template('admin_productos.html', perfumes=perfumes)
 
 # --- RUTA 4: GESTIÓN DE PEDIDOS ---
-@admin_bp.route('/admin/pedidos')
+@admin_bp.route('/pedidos')
 def admin_pedidos():
     return render_template('admin_pedidos.html')
 
 # --- RUTA 5: GESTIÓN DE USUARIOS ---
-@admin_bp.route('/admin/usuarios')
+@admin_bp.route('/usuarios')
 def admin_usuarios():
     return render_template('admin_usuarios.html')
 
@@ -64,7 +107,7 @@ def admin_usuarios():
 # ==========================================================
 
 # --- RUTA 6: MOSTRAR el formulario para crear un perfume (GET) ---
-@admin_bp.route('/admin/perfume/nuevo', methods=['GET'])
+@admin_bp.route('/perfume/nuevo', methods=['GET'])
 def vista_crear_perfume():
     generos = []
     conn = None
@@ -89,11 +132,11 @@ def vista_crear_perfume():
 
 
 # --- RUTA 7: RECIBIR los datos del formulario (POST) ---
-@admin_bp.route('/admin/perfume/crear', methods=['POST'])
+@admin_bp.route('/perfume/crear', methods=['POST'])
 def crear_perfume():
     conn = None
     try:
-        # 1. Recibir todos los datos del formulario
+        
         marca = request.form.get('marca')
         presentacion = request.form.get('presentacion')
         talla = request.form.get('talla')
@@ -101,13 +144,14 @@ def crear_perfume():
         stock = request.form.get('stock')
         fecha_caducidad = request.form.get('fecha_caducidad')
         
-        # Pequeña conversión por si la fecha viene vacía
+        
         if not fecha_caducidad:
             fecha_caducidad = None
         
         # 2. Conectar y guardar en la base de datos
         conn = get_db_connection()
         cur = conn.cursor()
+
         sql = """
             INSERT INTO gestion_perfumance.perfume 
             (marca, presentacion, talla, id_genero, stock, fecha_caducidad) 
@@ -117,6 +161,16 @@ def crear_perfume():
         conn.commit()
         
         flash('¡Perfume agregado exitosamente!', 'success')
+
+        usuario = session.get('usuario', {})
+        id_usuario = usuario.get('id_usuario')
+        descripcion = f"Agrego el perfume '{marca}' al catálogo."
+
+        cur.execute("""INSER INTO gestion_perfumance.actividad (id_usuario, descripcion)
+                    VALUES (%s, %s)""", 
+                    (id_usuario, descripcion))
+        conn.commit()
+        flash('¡Perfume agregado exitosamente!', 'sucess')
     
     except Exception as e:
         if conn:

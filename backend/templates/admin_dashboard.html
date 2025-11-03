@@ -20,7 +20,7 @@
                 <h2 class="logo">Perfu<span class="logo-accent">mance</span></h2>
             </div>
             <nav class="sidebar-nav">
-                <a href="{{url_for('admin_dashboard')}}" class="nav-link active">
+                <a href="{{url_for('admin.admin_dashboard')}}" class="nav-link active">
                     <svg class="nav-icon" ...></svg>
                     <span>Dashboard</span>
                 </a>
@@ -97,16 +97,21 @@
 
             
             <div class="content-box">
-                <h2>Actividad Reciente</h2>
                 <ul class="activity-list">
-                    <li class="empty-state">
-                        No hay actividad reciente.
-                    </li>
+                    {% if actividades %}
+                        {% for a in actividades %}
+                            <li class="activity-item">
+                                <p><strong>{{ a.usuario }}</strong>({{ a.rol }}) — {{ a.descripcion }} </p>
+                                <span class="activity-date">{{ a.fecha.strftime("%d%m%Y %H:%M") }}</span>
+                        
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                            <li class="empty-state">No hay actividad reciente.</li>
+                    {% endif %}        
                 </ul>
             </div>
-
         </main>
     </div>
-
 </body>
 </html>

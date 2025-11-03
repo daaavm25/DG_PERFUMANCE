@@ -1,5 +1,7 @@
 database/copiasBD/
 
+proyecto/
+
 .env
 
 backend/create_admin.py
@@ -9,5 +11,3 @@ backend/__pycache__
 backend/routes/__pycache__
 
 backend/config.py
-
-proyecto/

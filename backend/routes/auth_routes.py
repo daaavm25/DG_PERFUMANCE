@@ -101,11 +101,24 @@ def login():
             current_app.logger.error(f"Error de verificación de contraseña: {ve}")
             return jsonify({"error": "Error interno del servidor"}), 500
     
-        session['usuario'] ={
+
+        id_cliente = None
+        if user[3].strip().lower() == 'cliente':
+            cur.execute("""SELECT id_cliente 
+                        FROM gestion_perfumance.usuario 
+                        WHERE id_usuario = %s""",
+                        (user[0],))
+            result = cur.fetchone()
+            if result: 
+                id_cliente = result[0]
+
+        session['usuario'] = {
             'id_usuario': user[0],
+            'id_cliente': id_cliente,
             'username': user[1],
-            'id_rol': user[3]
+            'rol': user[3]
         }
+        session.modified = True 
         
         rol = user[3].strip().lower()
 
@@ -118,6 +131,7 @@ def login():
         else:
             destino = '/login'    
 
+           
         return jsonify({
             "message": f"Bievenido {username}",
             "rol": user[3],
@@ -171,10 +185,12 @@ def recuperar():
         if conn:
             conn.close()
 
-@auth_bp.route('/verificar_sesion', methods=['GET'])
+@auth_bp.route('/sesion', methods=['GET'])
 def verificar_sesion():
-    usuario = session.get('usuario')
-    if usuario:
-        return jsonify({"autenticado": True, "usuario": usuario})
+    if 'usuario' in session:
+        return jsonify({
+            "login": True, 
+            "usuario": session['usuario']
+        }), 200
     else:
-        return jsonify({"autenticado": False}), 401
+        return jsonify({"login": False}), 401

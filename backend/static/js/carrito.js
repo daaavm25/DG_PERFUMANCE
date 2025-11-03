@@ -14,9 +14,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.location.href = "/login";
             return;
         }
+        
+        if (!res.ok) throw new Error(`Respuesta invalida: ${res.status}`);
 
-        const carrito = await res.json()
-        if (!carrito || carrito.length === 0){
+        const data = await res.json()
+        const carrito = data.carrito || [];
+
+        if (carrito.length === 0){
             emptyMsg.style.display = 'block';
             summaryContainer.style.display = 'none';
             return;            
@@ -27,28 +31,71 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let subtotal = 0;
         itemsContainer.innerHTML = carrito.map(item => {
-            subtotal += item.subtotal;
+            const subtotalItem = Number(item.subtotal || (item.precio * item.cantidad || 0));
+            subtotal += subtotalItem;
+            const imagen = item.imagen_url || `/static/img/perfume_${item.id_perfume}.jpg`;
+            const nombre = item.nombre || `Producto ${item.id_perfume}`;
             return `
-                <div class="cart-item">
-                    <img src="${item.imagen_url}" alt="${item.nombre}" class="cart-item-img">
+                <div class="cart-item" data-id="${item.id_perfume || item.id}">
+                    <img src="${imagen}" alt="${nombre}" class="cart-item-img">
                     <div class="cart-item-info">
-                        <h3>${item.nombre}</h3>
-                        <p>Precio: $${item.precio}</p>
+                        <h3>${nombre}</h3>
+                        <p>Precio: $${(item.precio ?? 0).toFixed(2)}</p>
                         <p>Cantidad: ${item.cantidad}</p>
+                        <button class="btn-eliminar">Eliminar</button>
                     </div>
                     <div class="cart-item-price">
-                        <p>$${item.subtotal.toFixed(2)}</p>
+                        <p>$${subtotalItem.toFixed(2)}</p>
                     </div>
                 </div>`;
         }).join("");
+
+        document.querySelectorAll('.btn-eliminar').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const itemDiv = e.target.closest('.cart-item');
+                const id_perfume = parseInt(itemDiv.dataset.id);
+                console.log("ID del perfume a eliminar:", id_perfume);
+
+                if (!id_perfume){
+                    alert("Error: No se encontro el ID del producto.");
+                }
+
+                if (!confirm("¿Deseas eliminar este producto del carrito?")) return;
+                try{
+                    const res = await fetch('/api/carrito/eliminar', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        credentials: 'include',
+                        body: JSON.stringify({id_perfume})
+                    });
+
+                    if (!res.ok) throw new Error('Error al eliminar producto');
+                    const data = await res.json();
+                    
+                    console.log("Producto eliminado:", data);
+                    itemDiv.remove();
+
+                    if (document.querySelectorAll('.cart-item').length === 0){
+                        emptyMsg.style.display = 'block';
+                        summaryContainer.style.display = 'none';
+                    }
+                }catch (err){
+                    console.error("Error al intentar eliminar producto:", err);
+                }
+            });
+        });
+
         const  envio = 0.00;
         const total = subtotal + envio;
 
         subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
         envioEl.textContent = `$${envio.toFixed(2)}`;
         totalEl.textContent = `$${total.toFixed(2)}`;
+
     }catch (error){
         console.error("Error en carrito.js", error);
         itemsContainer.innerHTML = "<p>Error al cargar el carrito.</p>";
+        const summary = document.getElementById('cart-summary-contaainer');
+        if (summary) summary.style.display = 'none';
     }
 });

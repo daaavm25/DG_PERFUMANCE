@@ -214,7 +214,7 @@ button:hover, .btn:hover {
     justify-content: center;
 }
 
-.detail-container {
+.detalle-container {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     gap: 40px;
@@ -224,26 +224,26 @@ button:hover, .btn:hover {
     border-radius: 10px;
 }
 
-.detail-image img { 
+.detalle-imagen img { 
     width: 100%; 
     border-radius: 10px; 
 }
 
-.detail-info h1 { 
+.detalle-info h1 { 
     text-align: left; 
     font-size: 2.5em; 
     color: #f0f0f0; 
     margin: 0 0 15px 0; 
 }
 
-.detail-info .price { 
+.detalle-info .price { 
     font-size: 2em; 
     color: #cf0d0d; 
     margin-bottom: 20px; 
     font-weight: bold; 
 }
 
-.detail-info .description { 
+.detalle-info .description { 
     line-height: 1.6; 
     margin-bottom: 30px; 
     color: #aaa; 
@@ -623,4 +623,59 @@ button:hover, .btn:hover {
 .summary-item-price {
     font-weight: bold;
     color: #f0f0f0;
+}
+
+.quantity-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #0d0d0d;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 120px;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.quantity-btn {
+    background-color: #0d0d0d;
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.quantity-btn:hover {
+    background-color: #504e4e;
+}
+
+#cantidad-input {
+    width: 50px;
+    background-color: #0d0d0d;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 5px;
+    border: 1px solid #0d0d0d;
+    border-radius: 5px;
+    outline: none;
+}
+
+.btn-eliminar{
+    background-color: #c62828;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-eliminar:hover{
+    background-color: #a61d1d;
 }

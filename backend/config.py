@@ -14,4 +14,4 @@ def get_db_connection():
     )
     return conn
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.environ.get('SECRET_KEY', os.urandom(24))

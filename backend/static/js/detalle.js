@@ -30,10 +30,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const btnComprar = document.querySelector('.btn');
     const toastAlerta = document.getElementById('toast-alerta');
+    const cantidadInput = document.getElementById('cantidad-input');
+    const btnMas = document.getElementById('btn-plus');
+    const btnMenos = document.getElementById('btn-minus');
+
+    if (btnMas && btnMenos && cantidadInput){
+        btnMas.addEventListener('click', () =>{
+            let val = parseInt(cantidadInput.value) || 1;
+            if (val < 10) cantidadInput.value = val + 1;
+        });
+
+        btnMenos.addEventListener('click', () =>{
+            let val = parseInt(cantidadInput.value) || 1;
+            if (val > 1) cantidadInput.value = val - 1;
+        });
+    }
 
     if (btnComprar) {
         btnComprar.addEventListener('click', async () =>{
             try{
+                const cantidadSeleccionada = parseInt(cantidadInput.value) || 1;
                 console.log("Agregando perfume con id:", currentProductId)
 
                 const res = await fetch(`/api/carrito/agregar`,{
@@ -42,27 +58,42 @@ document.addEventListener('DOMContentLoaded', async () => {
                     credentials: "include",
                     body: JSON.stringify({
                         id_perfume: currentProductId,
-                        cantidad: 1})
+                        cantidad: cantidadSeleccionada
+                    })
                 });
                 
                 if (res.status === 401){
+                    alert("Necesitas iniciar sesion para agregar productos al carrito.");
                     window.location.href = "/login";
                     return;
                 }
-                if (!res.ok) throw new Error("Error al agregar al carrito.");
 
+                if (!res.ok) throw new Error("Error al agregar al carrito.");
                 const data = await res.json()
                 console.log("Carrito actualizado:", data);
 
-                const toastAlerta = document.getElementById('toast-alerta');
-                if (toastAlerta){
-                    toastAlerta.classList.add('show');
-                    setTimeout(() => toastAlerta.classList.remove('show'), 3000);
-                }
+                mostrarToast("Producto agregado correctamente.", true);
+
             }catch (err){
                 console.error("Error al agregar al carrito:", err);
-                alert("No se pudo agregar al carrito");
+                mostrarToast("No se pudo agregar al carrito.", false);
             }
         });
     }
 });
+
+function mostrarToast(mensaje, exito=true){
+    let toast = document.createElement('div');
+    toast.className = `toast ${exito ? 'toast-exito' : 'toast-error'}`;
+    toast.innerHTML = `
+        <p>${mensaje}</p>
+        ${exito ? '<div class="toast-buttons"><a href="/carrito" class="btn">Ver Carrito</a><button class="btn-secundario" id="seguirComprando">Seguir comprando</button></div>' :''}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    if (exito){
+        document.getElementById('seguirComprando').addEventListener('click', () =>{
+            toast.remove();
+        });
+    }
+    setTimeout(() => toast.remove(), 5000);
+}

@@ -1,27 +1,39 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash
 from flask_cors import CORS
-from flask_talisman import Talisman
+#from flask_talisman import Talisman
 from config import SECRET_KEY, get_db_connection
 
 from routes.auth_routes import auth_bp
 from routes.catalogo_routes import catalogo_bp
 from routes.carrito_routes import carrito_bp
 from routes.venta_routes import venta_bp
+from routes.admin_routes import admin_bp
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
-CORS(app, supports_credentials=True, origins="http://localhost:5000")
-Talisman(app, content_security_policy=None)
+CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5000",
+                                              "http://localhost:5000"])
+#Talisman(app, content_security_policy=None)
+app.config.update(
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=False,
+)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(catalogo_bp)
 app.register_blueprint(carrito_bp)
 app.register_blueprint(venta_bp)
+app.register_blueprint(admin_bp)
 
 @app.route('/')
 def inicio():
     return render_template('inicio.html')
+
+@app.before_request
+def limpiar_sesion_si_invalida():
+    if 'usuario' in session and request.endpoint == 'login':
+        return redirect(url_for('login'))
 
 @app.route('/login')
 def login():
@@ -34,36 +46,8 @@ def carrito():
 # --- RUTAS DE ADMIN ---
 
 @app.route('/admin_dashboard')
-def admin_dashboard():
-    conn = None
-    total_productos = 0
-    total_usuarios = 0
-    total_pedidos = 0
-    try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-
-        cur.execute("""SELECT COUNT(*)
-                    FROM gestion_perfumance.perfume""")
-        total_productos = cur.fetchone()[0]
-
-        cur.execute("""SELECT COUNT(*)
-                    FROM gestion_perfumance.usuario""")
-        total_usuarios = cur.fetchone()[0]
-
-        cur.execute("""SELECT COUNT(*)
-                    FROM gestion_perfumance.venta""")
-        total_usuarios = cur.fetchone()[0]
-    except Exception as e:
-        print(f"Error al cargar el dashboard: {e}")
-    finally:
-        if conn:
-            conn.close()
-    
-    return render_template('admin_dashboard.html', 
-                           total_prod = total_productos, 
-                           total_usr = total_usuarios,
-                           total_ped = total_pedidos)
+def redirect_admin_dashboard():
+    return redirect(url_for('admin.admin_dashboard'))
 
 @app.route('/admin_pedidos')
 def admin_pedidos():
@@ -443,7 +427,6 @@ def actualizar_usuario(id_usuario):
 
 # --- FIN DE RUTAS DE USUARIO ---
 
-
 @app.route('/catalogo_general')
 def catalogo_general():
     conn = get_db_connection() 
@@ -528,11 +511,23 @@ def producto_detalle():
 def recuperar():
     return render_template('recuperar.html')
 
+@app.route('/api/verificar_sesion', methods=['GET'])
+def verificar_sesion():
+    if 'usuario' in session:
+        return {
+            "autenticado": True, 
+            "usuario": session['usuario']
+        }, 200
+    else:
+        return {"autenticado": False}, 200
+       
 @app.route('/logout')
 def logout():
     session.clear()
+    resp = redirect(url_for('login'))
+    resp.delete_cookie('session')
     flash('Has cerrado sesión exitosamente.', 'success')
-    return redirect(url_for('login'))
+    return resp
 
 if __name__ == '__main__':
     app.run(debug=True)

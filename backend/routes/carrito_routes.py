@@ -8,6 +8,7 @@ carrito_bp = Blueprint('carrito', __name__, url_prefix='/api')
 @carrito_bp.route('/carrito/agregar', methods=['POST'])
 def agregar_al_carrito():
     if 'usuario' not in session:
+        current_app.logger.warning("Intento de agregar sin sesión activa")
         return jsonify({"error": "Necesita iniciar sesion para continuar"}), 401
     
     data = request.get_json()
@@ -31,9 +32,8 @@ def agregar_al_carrito():
         if not perfume:
             return jsonify({"error": "Producto no encontrado."}), 404
 
-        marca = perfume[0]
-        stock = perfume[1]
-        precio = float(perfume[2])
+        marca, stock, precio = perfume
+        precio = float(precio);
 
         if stock < cantidad:
             return jsonify({"error": "Stock insuficiente"}), 400
@@ -42,7 +42,7 @@ def agregar_al_carrito():
         existente = next((item for item in carrito if item['id_perfume'] == id_perfume), None)
 
         if existente:
-            existente ['cantidad'] += cantidad
+            existente ['cantidad'] = cantidad
             existente ['subtotal'] = existente['cantidad'] * existente['precio']
         else:
             carrito.append({
@@ -57,8 +57,10 @@ def agregar_al_carrito():
         session['carrito'] = carrito
         session.modified = True
 
+        current_app.logger.info(f"Carrito actualizado: {session['carrito']}")
         return jsonify({"message": "Producto agregado al carrito.", "carrito": carrito}), 200
-    except (psycopg2.Error,Exception) as e:
+    
+    except Exception as e:
         current_app.logger.error(f"Error al agregar al carrito: {e}")
         return jsonify({"error": "Error interno del servidor"}), 500
 
@@ -71,10 +73,34 @@ def ver_carrito():
 @carrito_bp.route('/carrito_api', methods=['GET'])
 def ver_carrito_api():
     if 'usuario' not in session:
-        return jsonify({"error": "No autorizado"}), 400
+        return jsonify({"error": "No autorizado"}), 401
     
     carrito = session.get('carrito', [])
-    return jsonify({"carrito": carrito}), 200
+    return jsonify({'carrito': carrito}), 200
+
+@carrito_bp.route('/carrito/eliminar', methods=['POST'])
+def eliminar_del_carrito():
+    if 'usuario' not in session:
+        return jsonify({
+            "error": "No autorizado"
+        }), 401
+    
+    data = request.get_json()
+    current_app.logger.info(f"Datos recibidos para liminar: {data}")
+    id_perfume = data.get('id_perfume')
+
+    if not id_perfume:
+        return jsonify({
+            "error": "ID de producto faltante"
+        }), 400
+    
+    carrito = session.get('carrito', [])
+    nuevo_carrito = [item for item in carrito if item['id_perfume'] != id_perfume]
+
+    session['carrito'] = nuevo_carrito
+    session.modified = True
+
+    return jsonify({"message": "Producto eliminado del carrito", "carrito":nuevo_carrito}), 200
 
 @carrito_bp.route('/carrito/vaciar', methods=['POST'])
 def vaciar_carrito():

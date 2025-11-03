@@ -52,3 +52,23 @@ document.addEventListener('DOMContentLoaded', async () =>{
         console.error("Error al verificar sesion:", error);
     }
 });
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try{
+        const res = await fetch('/api/sesion', {credentials: "include"});
+        const data = await res.json();
+
+        const loginLink = document.getElementById('link-login');
+        const logoutLink = document.getElementById('link-logout');
+
+        if (data.login){
+            if (loginLink) loginLink.style.display = 'none';
+            if (logoutLink) logoutLink.style.display = 'inline-block';
+        }else{
+            if (loginLink) loginLink.style.display = 'inline-block';
+            if (logoutLink) logoutLink.style.display = 'none';   
+        }
+    }catch (error){
+        console.error("Error al verificar sesion.", error);
+    }
+});
